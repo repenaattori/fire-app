@@ -1,4 +1,4 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { db, TODO_REF } from "./FirebaseConfig";
 
@@ -22,4 +22,23 @@ export function TodoProvider({children}){
             {children}
         </TodoContext.Provider>
     );
+}
+
+
+export function addTodo(todoText){
+    if(todoText.trim() != ''){
+        addDoc(collection(db, TODO_REF), {done: false, todoText})
+            .catch(error => console.log(error.message));
+    }
+}
+
+export function removeTodo(id){
+    deleteDoc(doc(db, TODO_REF, id))
+        .catch(error => console.log(error.message));
+}
+
+export function removeAllTodos(){
+    getDocs(collection(db, TODO_REF))
+        .then(docs => docs.forEach(doc => removeTodo(doc.id)))
+        .catch(error => console.log(error.message));
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Checkbox, Chip, IconButton, MD3LightTheme } from "react-native-paper";
-import { removeTodo } from "./FirestoreController";
+import { removeTodo, updateTodo } from "./FirestoreController";
 
 
 export default function TodoItem({todoItem}){
@@ -13,11 +13,16 @@ export default function TodoItem({todoItem}){
             : MD3LightTheme.colors.onTertiary
     }
     
+    function updateDone(){
+        updateTodo(todoItem.id, {done: !done});
+        setDone(prev=>!prev);
+    }
+
     return( 
         <View style={styles.todoItem}>
             <Checkbox
                 status={done ? 'checked' : 'unchecked'}
-                onPress={()=>setDone(prev => !prev)}
+                onPress={updateDone}
             />
             <Chip style={chipStyle}>{todoItem.todoText}</Chip>
             <IconButton

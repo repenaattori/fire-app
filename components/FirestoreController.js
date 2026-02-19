@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { db, TODO_REF } from "./FirebaseConfig";
 
@@ -41,4 +41,9 @@ export function removeAllTodos(){
     getDocs(collection(db, TODO_REF))
         .then(docs => docs.forEach(doc => removeTodo(doc.id)))
         .catch(error => console.log(error.message));
+}
+
+export function updateTodo(id, data){
+    updateDoc( doc(db, TODO_REF, id), data )
+        .catch(error=>console.log(error.message));
 }

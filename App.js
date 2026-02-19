@@ -5,7 +5,6 @@ import {  PaperProvider, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import RemoveView from './components/RemoveView';
 import AddTodoView from './components/AddTodoView';
-import TodoItem from './components/TodoItem';
 import TodoList from './components/TodoList';
 
 export default function App() {

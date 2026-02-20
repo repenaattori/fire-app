@@ -10,16 +10,10 @@ export default function LoginView() {
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [nickname, setNickname] = useState('');
-    const [error, setError] = useState();
-
-    if(error){
-        Alert.alert('Error', error.message);
-        setError(null);
-    }
 
     async function sign(){
         let error = register ? await signUp(nickname,email,pw) : await signIn(email, pw);
-        setError(error);
+        Alert.alert('Error', error.message);
     }
 
     return (

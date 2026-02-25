@@ -1,7 +1,8 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut }
+    from "firebase/auth";
 import { auth, db, USERS_REF } from "./FirebaseConfig";
 import { createContext, useEffect, useState } from "react";
-import { doc,  onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 
 export async function signUp(nickname, email, password) {
     try {
@@ -9,20 +10,16 @@ export async function signUp(nickname, email, password) {
         await setDoc(doc(db, USERS_REF, userCredentials.user.uid), {
             nickname: nickname,
             email: userCredentials.user.email
-        })
-        console.log('Success');
+        });
     } catch (error) {
-        console.log(error.message);
         return error;
     }
 }
 
 export async function signIn(email, password) {
     try {
-        let user = await signInWithEmailAndPassword(auth, email, password);
-        console.log('Signed in');
+        await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-        console.log(error.message);
         return error;
     }
 }
@@ -42,16 +39,20 @@ export function AuthProvider({ children }) {
     const [userdata, setUserData] = useState();
 
     useEffect(() => {
-        let removeLister;
+        let unsubscribe;
         onAuthStateChanged(auth, user => {
-            if(user){
+            if (user) {
                 setLoggedIn(true);
-                removeLister = onSnapshot(doc(db, USERS_REF, user.uid), docSnap => 
+                unsubscribe = onSnapshot(doc(db, USERS_REF, user.uid), docSnap =>
                     setUserData(docSnap.data())
                 )
-            }else{
+            } else {
+                if (unsubscribe) {
+                    unsubscribe();
+                }
                 setLoggedIn(false);
-            }           
+                setUserData(null);
+            }
         });
     }, []);
 
@@ -62,7 +63,7 @@ export function AuthProvider({ children }) {
     )
 }
 
-export async function modifyUserData(data){
+export async function modifyUserData(data) {
     try {
         await updateDoc(doc(db, USERS_REF, auth.currentUser.uid), data);
     } catch (error) {

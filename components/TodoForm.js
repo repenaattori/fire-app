@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import { addTodo, TodoContext } from "./FirestoreController";
+import { addTodo, TodoContext } from "../firebase/FirestoreController";
 import { MD3LightTheme, Text, TextInput } from "react-native-paper";
 import { View } from "react-native";
 
-export default function AddTodoView() {
+export default function TodoForm() {
 
   const [todo, setTodo] = useState('');
 

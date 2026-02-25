@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
-import { AuthContext, modifyUserData } from "./FirebaseAuthControl";
+import { AuthContext, modifyUserData } from "../firebase/FirebaseAuthControl";
 import { Button, Text, TextInput } from "react-native-paper";
 
 export default function AccountView(){
@@ -9,7 +9,7 @@ export default function AccountView(){
     const [decs, setDesc] = useState(userdata ? userdata.description : '');
     
     if(!userdata){
-        return  <Text variant="titleMedium">Userdata not found!!!</Text>
+        return  <Text variant="titleMedium">User data not found!!!</Text>
     }
 
     async function saveData(){
@@ -32,7 +32,7 @@ export default function AccountView(){
             />
             <Button 
                 mode={"contained"} 
-                onPress={()=>modifyUserData({nickname, description: decs})}>
+                onPress={saveData}>
                     Save user data
             </Button>
         </View>

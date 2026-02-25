@@ -1,17 +1,17 @@
 import { StyleSheet, View } from "react-native"
-import AddTodoView from "./AddTodoView";
-import RemoveView from "./RemoveView";
-import TodoList from "./TodoList";
-import { TodoContext } from "./FirestoreController";
+import { TodoContext } from "../firebase/FirestoreController";
 import { useContext } from "react";
+import TodoList from "../components/TodoList";
+import RemoveTodos from "../components/RemoveTodos";
+import TodoForm from "../components/TodoForm";
 
 export default function TodoView(){
     const todos = useContext(TodoContext);
 
     return(
         <View style={styles.container}>
-            <AddTodoView/>
-            <RemoveView/>
+            <TodoForm/>
+            <RemoveTodos/>
             <TodoList todos={todos}/>
         </View>
     )

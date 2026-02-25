@@ -1,7 +1,7 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button, Switch, Text, TextInput } from "react-native-paper";
-import { signIn, signUp } from "./FirebaseAuthControl";
+import { signIn, signUp } from "../firebase/FirebaseAuthControl";
 
 
 export default function LoginView() {
@@ -11,9 +11,13 @@ export default function LoginView() {
     const [pw, setPw] = useState('');
     const [nickname, setNickname] = useState('');
 
-    async function sign(){
-        let error = register ? await signUp(nickname,email,pw) : await signIn(email, pw);
-        Alert.alert('Error', error.message);
+    async function sign() {
+        let error = register ?
+            await signUp(nickname, email, pw) :
+            await signIn(email, pw);
+        if (error) {
+            Alert.alert('Error', error.message);
+        }
     }
 
     return (
@@ -38,18 +42,16 @@ export default function LoginView() {
             />
             {
                 register &&
-                <View>
-                    <TextInput
-                        value={nickname}
-                        onChangeText={setNickname}
-                        label={'Nickname'}
-                    />
-                </View>
+                <TextInput
+                    value={nickname}
+                    onChangeText={setNickname}
+                    label={'Nickname'}
+                />
             }
-            <Button 
-                mode="contained" 
+            <Button
+                mode="contained"
                 onPress={sign}>
-                    {register ? 'Register' : 'Login'}
+                {register ? 'Register' : 'Login'}
             </Button>
         </View>
     )

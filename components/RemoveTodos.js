@@ -1,8 +1,8 @@
 import { Alert } from "react-native";
-import { removeAllTodos } from "./FirestoreController";
+import { removeAllTodos } from "../firebase/FirestoreController";
 import { Button } from "react-native-paper";
 
-export default function RemoveView() {
+export default function RemoveTodos() {
 
   function remove(){
     Alert.alert('Todolist', 'Remove all todo items?',[
